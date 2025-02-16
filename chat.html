@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magulang de Asukal</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Meow+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Molle&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome & Styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const chatBox = document.getElementById("chatBox");
+            const messageInput = document.getElementById("messageInput");
+            const sendButton = document.getElementById("sendButton");
+
+            // Get user from URL
+            function getUserFromURL() {
+                const params = new URLSearchParams(window.location.search);
+                return params.get('user') || 'Unknown';
+            }
+
+            // Load saved messages from localStorage
+            function loadMessages() {
+                const savedMessages = JSON.parse(localStorage.getItem("chatMessages")) || [];
+                savedMessages.forEach(msg => {
+                    addMessage(msg.text, msg.type);
+                });
+            }
+
+            // Save messages to localStorage
+            function saveMessage(text, type) {
+                let savedMessages = JSON.parse(localStorage.getItem("chatMessages")) || [];
+                savedMessages.push({ text, type });
+                localStorage.setItem("chatMessages", JSON.stringify(savedMessages));
+            }
+
+            // Add message to chat
+            function addMessage(text, type) {
+                let newMessage = document.createElement("div");
+                newMessage.classList.add("message", type);
+                newMessage.innerHTML = `<p>${text}</p>`;
+                chatBox.appendChild(newMessage);
+                newMessage.scrollIntoView({ behavior: "smooth" });
+            }
+
+            // Send a message
+            function sendMessage() {
+                let messageText = messageInput.value.trim();
+                if (messageText === "") return;
+
+                addMessage(messageText, "sent");
+                saveMessage(messageText, "sent");
+                messageInput.value = "";
+
+                // Disable button to prevent spam
+                sendButton.disabled = true;
+
+                // Simulate a reply
+                setTimeout(() => {
+                    const replyText = "wag🚫🚫❌ kang magalala baby ko❤️🧡💛💛💙💜 proprotektahan kita👊✊💪 at ng Gang ko 🔥 Kapag kami may kaaway Simple lang😎💦 namang ang Gagawin namen Kakausapin lang sila☠️ 😋 sabay bulong ng Tatlong salita 😕😤 Distansiya,🖕⚠️ Ambulansya🏥🚑 O Purinarya😱👿 wag kang Maangas 😕👊";
+                    addMessage(replyText, "received");
+                    saveMessage(replyText, "received");
+
+                    // Re-enable send button
+                    sendButton.disabled = false;
+                }, 1000);
+            }
+
+            // Set chat title
+            document.getElementById("chatTitle").innerText = `Chat with ${getUserFromURL()}`;
+
+            // Load existing messages
+            loadMessages();
+
+            // Add event listener for send button
+            sendButton.addEventListener("click", sendMessage);
+
+            // Enable send button only if there is text
+            messageInput.addEventListener("input", () => {
+                sendButton.disabled = messageInput.value.trim() === "";
+            });
+
+            // Enable enter key to send messages
+            messageInput.addEventListener("keypress", function (event) {
+                if (event.key === "Enter") {
+                    sendMessage();
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1 id="chatTitle">Chat</h1>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="messages.html"><i class="fa fa-arrow-left"></i> Back to Messages</a>
+        <a href="index.html"><i class="fa fa-home"></i> Home</a>
+        <a href="profiles.html"><i class="fa fa-users"></i> Browse Profiles</a>
+    </nav>
+
+    <!-- Chat Container -->
+    <div class="chat-container">
+        <div id="chatBox" class="chat-box">
+            <div class="message received">
+                <p>yeoboseyo ?? I mean hello >.< *chuckles lightly* oh arasso, i mean okay ah .... ne, i mean yes. jinjjayo i mean really ... eheh ..mianhaeyo !!! I'M SORRY *frustrated sigh* aish...ottoke i mean what do we do ?? arasso, i mean okay :3 see you annyeong, i mean bye</p>
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="messageInput" placeholder="Type a message...">
+            <button id="sendButton" disabled>Send</button>
+        </div>
+    </div>
+
+</body>
+</html>
