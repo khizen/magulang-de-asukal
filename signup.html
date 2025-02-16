@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up | Magulang de Asukal</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Meow+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Molle&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,18 +15,21 @@
     <header>
         <h1>Asukal Baby Sign Up</h1>
     </header>
+
     <!-- Navigation Bar -->
     <nav>
-        <a href="index.html">Home</a>
-        <a href="profiles.html">Browse Profiles</a>
-        <a href="signup.html">Sign Up</a>
-        <a href="login.html">Login</a>
+        <a href="index.html"><i class="fa fa-home"></i> Home</a>
+        <a href="profiles.html"><i class="fa fa-users"></i> Browse Profiles</a>
+        <a href="messages.html" id="messages-link" style="display: none;"><i class="fa fa-envelope"></i> Messages</a>
+        <a href="signup.html" id="signup-link"><i class="fa fa-user-plus"></i> Sign Up</a>
+        <a href="login.html" id="login-link"><i class="fa fa-sign-in-alt"></i> Login</a>
+        <a href="#" id="logout-link" style="display: none;"><i class="fa fa-sign-out-alt"></i> Logout</a>
     </nav>
     
     <!-- Sign-Up Form Section -->
     <section class="form-section">
         <h2>Create an Account</h2>
-        <form action="#" method="post">
+        <form id="signup-form">
             <label for="name">Full Name</label>
             <input type="text" id="name" name="name" placeholder="Enter your full name" required>
 
@@ -36,7 +42,7 @@
             <label for="confirm-password">Confirm Password</label>
             <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
 
-            <input type="submit" value="Sign Up">
+            <button type="submit"><i class="fa fa-user-plus"></i> Sign Up</button>
         </form>
     </section>
 
@@ -44,5 +50,34 @@
     <footer>
         <p>Already have an account? <a href="login.html">Login here</a></p>
     </footer>
+
+    <!-- JavaScript for Signup Form -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const signupForm = document.getElementById("signup-form");
+
+            signupForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                const name = document.getElementById("name").value.trim();
+                const email = document.getElementById("email").value.trim();
+                const password = document.getElementById("password").value;
+                const confirmPassword = document.getElementById("confirm-password").value;
+
+                if (password !== confirmPassword) {
+                    alert("Passwords do not match!");
+                    return;
+                }
+
+                // Store user details in localStorage (temporary storage)
+                localStorage.setItem("userName", name);
+                localStorage.setItem("userEmail", email);
+                localStorage.setItem("loggedIn", "true");
+
+                alert("Sign-up successful! Redirecting...");
+                window.location.href = "index.html";
+            });
+        });
+    </script>
 </body>
 </html>
